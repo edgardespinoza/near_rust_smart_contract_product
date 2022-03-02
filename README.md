@@ -1,6 +1,10 @@
 # Management Product
 Simple contract about add, delete, update and get products with stock.
 
+
+## Flow Business
+[![](https://mermaid.ink/img/pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)
+
 ## Setting up
 - install environment
   ```bash
@@ -11,17 +15,17 @@ Simple contract about add, delete, update and get products with stock.
 
 - setting ID OWNER is who deployment the contract, change YYYY.testnet  for your account
     ```
-    $   export ID_OWNER=ds2.YYYY.testnet 
+    $   export ID_OWNER=ds4.YYYY.testnet 
     ```
 - setting ID CALLER is who calling methods from contract, change YYYY.testnet  for your account
     ```
-    $   export ID_CALLER=ds2.YYYY.testnet 
+    $   export ID_CALLER=ds0.YYYY.testnet 
     ```
     
 - to login and create new account , change YYYY.testnet  for your account
     ```bash
         $ near login 
-        $ near create-account $ID_OWNER --masterAccount YYYY.testnet --initialBalance 4
+        $ near create-account $ID_CALLER --masterAccount YYYY.testnet --initialBalance 1
     ```
 
 - to clean the folder target
@@ -46,12 +50,12 @@ Simple contract about add, delete, update and get products with stock.
 - call smart contracts
   * add product
     ```bash
-      near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":5}' --accountId $ID_CALLER
+      near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":5}' --accountId $ID_OWNER
      ```
 
   * get product
     ```bash
-      near call $ID_OWNER get_products '{"address":"0x1"}' --accountId $ID_CALLER
+      near call $ID_OWNER get_products '{"address":"0x1"}' --accountId $ID_OWNER
      ```
 
   * update product
@@ -61,7 +65,7 @@ Simple contract about add, delete, update and get products with stock.
 
   * delete product
      ```bash
-      near call $ID_OWNER delete_products '{"address":"0x1"}' --accountId $ID_CALLER
+      near call $ID_OWNER delete_products '{"address":"0x1"}' --accountId $ID_OWNER
      ```
 
 
@@ -73,6 +77,3 @@ Simple contract about add, delete, update and get products with stock.
   └── src           -- directory source
       └── lib.rs    -- file where is smart contract and unit tests
 ```
-
-## Flow Business
-[![](https://mermaid.ink/img/pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)
