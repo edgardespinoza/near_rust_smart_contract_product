@@ -9,16 +9,19 @@ Simple contract about add, delete, update and get products with stock.
    $ npm install -g near-cli
    ```
 
-   change  YYY.testnet for your account
-- to login and create new account 
+- setting ID OWNER is who deployment the contract, change YYYY.testnet  for your account
+    ```
+    $   export ID_OWNER=ds2.YYYY.testnet 
+    ```
+- setting ID CALLER is who calling methods from contract, change YYYY.testnet  for your account
+    ```
+    $   export ID_CALLER=ds2.YYYY.testnet 
+    ```
+    
+- to login and create new account , change YYYY.testnet  for your account
     ```bash
         $ near login 
-        $ near create-account de4.YYYY.testnet --masterAccount YYYY.testnet --initialBalance 10
-    ```
-
-- setting ID
-    ```
-    $   ID=de4.YYYY.testnet
+        $ near create-account $ID_OWNER --masterAccount YYYY.testnet --initialBalance 4
     ```
 
 - to clean the folder target
@@ -37,29 +40,30 @@ Simple contract about add, delete, update and get products with stock.
 
 - to deploy contract 
     ```bash
-    $ near deploy  --wasmFile target/wasm32-unknown-unknown/release/sales.wasm --accountId $ID
+    $ near deploy  --initFunction 'new' --initArgs '{}'  --wasmFile target/wasm32-unknown-unknown/release/sales.wasm --accountId $ID_OWNER
     ``` 
 
 - call smart contracts
   * add product
     ```bash
-      near call $ID set_products '{"address":"0x1","price":12345,"stock":5}' --accountId $ID
+      near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":5}' --accountId $ID_CALLER
      ```
 
   * get product
     ```bash
-      near call $ID get_products '{"address":"0x1"}' --accountId $ID
+      near call $ID_OWNER get_products '{"address":"0x1"}' --accountId $ID_CALLER
      ```
 
   * update product
      ```bash
-      near call $ID set_products '{"address":"0x1","price":12345,"stock":4}' --accountId $ID
+      near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":4}' --accountId $ID_CALLER
      ```
 
   * delete product
      ```bash
-      near call $ID delete_products '{"address":"0x1"}' --accountId $ID
+      near call $ID_OWNER delete_products '{"address":"0x1"}' --accountId $ID_CALLER
      ```
+
 
 ## Code Structure 
 ```
@@ -69,3 +73,6 @@ Simple contract about add, delete, update and get products with stock.
   └── src           -- directory source
       └── lib.rs    -- file where is smart contract and unit tests
 ```
+
+## Flow Business
+[![](https://mermaid.ink/img/pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)
