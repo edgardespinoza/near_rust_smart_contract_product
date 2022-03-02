@@ -1,19 +1,21 @@
 
 use std::collections::HashMap;
-
+ 
+use near_contract_standards::upgrade::Ownable;
 // To conserve gas, efficient serialization is achieved through Borsh (http://borsh.io/)
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::serde::{Serialize, Deserialize};
-use near_sdk::{env, near_bindgen, setup_alloc};
+use near_sdk::{env, near_bindgen, setup_alloc, AccountId};
 
 setup_alloc!();
 
 // Structs in Rust are similar to other languages, and may include impl keyword as shown below
 // Note: the names of the structs are not important when calling the smart contract, but the function names are
 #[near_bindgen]
-#[derive(Default, BorshDeserialize, BorshSerialize)]
+#[derive( BorshDeserialize, BorshSerialize )]
 pub struct Product {
     records: HashMap<String, Item>,
+    owner: AccountId,
 }
 
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
@@ -24,13 +26,42 @@ pub struct Item {
      enabled: bool
 }
 
+impl Default for Product {
+    fn default() -> Self {
+        env::panic(b"Product contract should be initialized before usage")
+    }
+}
+
+impl Ownable for Product{
+    fn get_owner(&self) -> AccountId {
+        self.owner.clone()
+    }
+
+    fn set_owner(&mut self, owner: AccountId) {
+        self.assert_owner();
+        self.owner = owner;
+    }
+}
+ 
 #[near_bindgen]
 impl Product{
+
+    #[init]
+    pub fn new()-> Self{
+        assert!(!env::state_exists(), "The contract is already initialized");
+      
+        Self{
+            records: HashMap::new(),
+            owner:env::signer_account_id()
+        }
+    }
+
+
     pub fn set_products(&mut self, address:String, price: u128, stock:u8){
-        let owner = env::signer_account_id();
+        self.assert_owner();
 
         // Use env::log to record logs permanently to the blockchain!
-        env::log(format!("set_product '{}' for account '{}'", address, owner,).as_bytes());
+        env::log(format!("set_product '{}' ", address).as_bytes());
 
         let item = Item {price, stock, enabled:true};
 
@@ -43,6 +74,7 @@ impl Product{
     }
 
     pub fn delete_products(&mut self, address:String) {
+        self.assert_owner();
         self.records.remove(&address);
     }
 }
@@ -69,9 +101,9 @@ mod tests {
     fn get_context(input: Vec<u8>, is_view: bool) -> VMContext {
         VMContext {
             current_account_id: "alice_near".to_string(),
-            signer_account_id: "bob_near".to_string(),
+            signer_account_id: "alice_near".to_string(),
             signer_account_pk: vec![0, 1, 2],
-            predecessor_account_id: "carol_near".to_string(),
+            predecessor_account_id: "alice_near".to_string(),
             input,
             block_index: 0,
             block_timestamp: 0,
@@ -91,8 +123,8 @@ mod tests {
     fn set_then_get_product() {
         let context = get_context(vec![], false);
         testing_env!(context);
-        let mut contract = Product::default();
-        
+        let mut contract = Product::new();
+     
         contract.set_products("0x1".to_string(), 12345, 12);
        
        let result = contract.get_products("0x1".to_string());
@@ -117,11 +149,11 @@ mod tests {
 
     #[test]
     fn get_default_product() {
-        let context = get_context(vec![], true);
+        let context = get_context(vec![], false);
         testing_env!(context);
-        let mut contract = Product::default();
+        let mut contract = Product::new();
         
-        let result = contract.get_products("0x2".to_string());
+        let result = contract.get_products("0x1".to_string());
        
         let val = match result {
              // The division was valid
@@ -148,7 +180,7 @@ mod tests {
     fn set_delete_product() {
         let context = get_context(vec![], false);
         testing_env!(context);
-        let mut contract = Product::default();
+        let mut contract = Product::new();
         
         contract.set_products("0x1".to_string(), 12345, 12);
        
@@ -178,7 +210,7 @@ mod tests {
     fn update_get_product() {
         let context = get_context(vec![], false);
         testing_env!(context);
-        let mut contract = Product::default();
+        let mut contract = Product::new();
         
         contract.set_products("0x1".to_string(), 12345, 12);
        

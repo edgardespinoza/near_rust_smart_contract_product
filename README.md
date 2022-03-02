@@ -9,16 +9,19 @@ Simple contract about add, delete, update and get products with stock.
    $ npm install -g near-cli
    ```
 
-   change  YYY.testnet for your account
-- to login and create new account 
+- setting ID OWNER who is deployment the contract, change YYYY.testnet  for your account
+    ```
+    $   export ID_OWNER=ds2.YYYY.testnet 
+    ```
+- setting ID CALLER who call methods from contract, change YYYY.testnet  for your account
+    ```
+    $   export ID_CALLER=ds2.YYYY.testnet 
+    ```
+    
+- to login and create new account , change YYYY.testnet  for your account
     ```bash
         $ near login 
-        $ near create-account de4.YYYY.testnet --masterAccount YYYY.testnet --initialBalance 10
-    ```
-
-- setting ID
-    ```
-    $   ID=de4.YYYY.testnet
+        $ near create-account $ID_OWNER --masterAccount YYYY.testnet --initialBalance 4
     ```
 
 - to clean the folder target
@@ -37,29 +40,30 @@ Simple contract about add, delete, update and get products with stock.
 
 - to deploy contract 
     ```bash
-    $ near deploy  --wasmFile target/wasm32-unknown-unknown/release/sales.wasm --accountId $ID
+    $ near deploy  --initFunction 'new' --initArgs '{}'  --wasmFile target/wasm32-unknown-unknown/release/sales.wasm --accountId $ID_OWNER
     ``` 
 
 - call smart contracts
   * add product
     ```bash
-      near call $ID set_products '{"address":"0x1","price":12345,"stock":5}' --accountId $ID
+      near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":5}' --accountId $ID_CALLER
      ```
 
   * get product
     ```bash
-      near call $ID get_products '{"address":"0x1"}' --accountId $ID
+      near call $ID_OWNER get_products '{"address":"0x1"}' --accountId $ID_CALLER
      ```
 
   * update product
      ```bash
-      near call $ID set_products '{"address":"0x1","price":12345,"stock":4}' --accountId $ID
+      near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":4}' --accountId $ID_CALLER
      ```
 
   * delete product
      ```bash
-      near call $ID delete_products '{"address":"0x1"}' --accountId $ID
+      near call $ID_OWNER delete_products '{"address":"0x1"}' --accountId $ID_CALLER
      ```
+
 
 ## Code Structure 
 ```
