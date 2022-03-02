@@ -9,11 +9,11 @@ Simple contract about add, delete, update and get products with stock.
    $ npm install -g near-cli
    ```
 
-- setting ID OWNER who is deployment the contract, change YYYY.testnet  for your account
+- setting ID OWNER is who deployment the contract, change YYYY.testnet  for your account
     ```
     $   export ID_OWNER=ds2.YYYY.testnet 
     ```
-- setting ID CALLER who call methods from contract, change YYYY.testnet  for your account
+- setting ID CALLER is who calling methods from contract, change YYYY.testnet  for your account
     ```
     $   export ID_CALLER=ds2.YYYY.testnet 
     ```
@@ -73,3 +73,6 @@ Simple contract about add, delete, update and get products with stock.
   └── src           -- directory source
       └── lib.rs    -- file where is smart contract and unit tests
 ```
+
+## Flow Business
+[![](https://mermaid.ink/img/pako:eNqVkM0KwjAQhF-l7EmxvkAOBX96VbEHL4ESk7UGm6Qmm4OUvruR1osH0TksO_DNwk4P0ikEBgHvEa3ErRaNF4bbLGmcq1ZLzGb70648zpdFsag29cE7FSWxLCDV3WjCD3jzH66wRcKPxNqdl9_uQg4GvRFapb_6V4YDXdEgB5ZWJfyNA7dD4mKnBGGpNDkP7CLagDmISK56WAmMfMQ3NBUzUcMTc2BoKw)](https://mermaid-js.github.io/mermaid-live-editor/edit#pako:eNqVkM0KwjAQhF-l7EmxvkAOBX96VbEHL4ESk7UGm6Qmm4OUvruR1osH0TksO_DNwk4P0ikEBgHvEa3ErRaNF4bbLGmcq1ZLzGb70648zpdFsag29cE7FSWxLCDV3WjCD3jzH66wRcKPxNqdl9_uQg4GvRFapb_6V4YDXdEgB5ZWJfyNA7dD4mKnBGGpNDkP7CLagDmISK56WAmMfMQ3NBUzUcMTc2BoKw)
