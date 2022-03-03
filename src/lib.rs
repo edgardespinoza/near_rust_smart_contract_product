@@ -27,6 +27,7 @@ const ROLE_DELETE_PRODUCT:&str = "ROLE_DELETE_PRODUCT";
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
 #[serde(crate = "near_sdk::serde")]
 pub struct Item {
+     name: String,
      price: u128,
      stock: u8,
      enabled: bool
@@ -90,13 +91,13 @@ impl Product{
     }
 
 
-    pub fn set_products(&mut self, address:String, price: u128, stock:u8){
+    pub fn set_products(&mut self, address:String, name:String, price: u128, stock:u8){
         
         //validate sender has permition of ROLE_SET_PRODUCT
         assert_eq!(self.access.has_role(&ROLE_SET_PRODUCT.to_string(), &env::signer_account_id()), true, "401");
 
 
-        let item = Item {price, stock, enabled:true};
+        let item = Item {name, price, stock, enabled:true};
 
         // Use env::log to record logs permanently to the blockchain!
         env::log(format!("set_product '{:?}' ", item).as_bytes());
@@ -110,6 +111,14 @@ impl Product{
          self.records.get(&address)
     }
 
+    pub fn get_all_products(&mut self) -> Vec<Option<&Item>> {
+        let mut v: Vec<Option<&Item>> = Vec::new();
+        for (key, val) in self.records.iter(){
+            println!("{} {} {} {}", key,val.name,val.price,val.stock);
+            v.push(self.records.get(key));
+        };
+        return v;
+    }
 
     pub fn delete_products(&mut self, address:String) {
        
@@ -171,16 +180,14 @@ mod tests {
         testing_env!(context);
         let mut contract = Product::new();
          
-        contract.add_role_set_product("alice".to_string());
-
-        contract.set_products("0x1".to_string(), 12345, 12);
+        contract.set_products("0x1".to_string(), "zapatos x".to_string(), 12345, 12);
        
        let result = contract.get_products("0x1".to_string());
        
        let val = match result {
             // The division was valid
             Some(x) => {
-                println!("Result: price:{}, stock:{}", x.price, x.stock);
+                println!("Result: name:{}, price:{}, stock:{}", x.name, x.price, x.stock);
                 x.price
             },
             // The division was invalid
@@ -195,6 +202,26 @@ mod tests {
        
     }
 
+
+    #[test]
+    fn set_then_get_all_products() {
+        let context = get_context(vec![], false);
+        testing_env!(context);
+        let mut contract = Product::new();
+     
+        contract.set_products("0x1".to_string(),"zapatos x".to_string(), 12345, 12);
+        contract.set_products("0x2".to_string(), "zapatos x".to_string(),5678, 11);
+        contract.set_products("0x3".to_string(),"zapatos x".to_string(), 678, 2);
+       
+       let result = contract.get_all_products();
+       let v1_result = result.iter();
+
+       println!("{:?}",v1_result);
+       println!("{}",result.len());
+
+       assert_eq!(3, result.len() );
+    }
+
     #[test]
     fn get_default_product() {
         let context = get_context(vec![], false);
@@ -206,7 +233,7 @@ mod tests {
         let val = match result {
              // The division was valid
              Some(x) => {
-                 println!("Result: price:{}, stock:{}", x.price, x.stock);
+                println!("Result: name:{}, price:{}, stock:{}", x.name, x.price, x.stock);
                  x.price
              },
              // The division was invalid
@@ -229,10 +256,10 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Product::new();
-        contract.add_role_set_product("alice".to_string());
-        contract.set_products("0x1".to_string(), 12345, 12);
        
-        contract.add_role_delete_product("alice".to_string());
+        contract.set_products("0x1".to_string(), "zapatos x".to_string(),12345, 12);
+       
+       
         contract.delete_products("0x1".to_string());
        
        let result = contract.get_products("0x1".to_string());
@@ -240,7 +267,7 @@ mod tests {
        let val = match result {
             // The division was valid
             Some(x) => {
-                println!("Result: price:{}, stock:{}", x.price, x.stock);
+                println!("Result: name:{}, price:{}, stock:{}", x.name, x.price, x.stock);
                 x.price
             },
             // The division was invalid
@@ -260,18 +287,17 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Product::new();
-        contract.add_role_set_product("alice".to_string());
        
-        contract.set_products("0x1".to_string(), 12345, 12);
+        contract.set_products("0x1".to_string(), "zapatos x".to_string(),12345, 12);
        
-        contract.set_products("0x1".to_string(), 12345, 11);
+        contract.set_products("0x1".to_string(), "zapatos x".to_string(),12345, 11);
        
        let result = contract.get_products("0x1".to_string());
        
        let val = match result {
             // The division was valid
             Some(x) => {
-                println!("Result: price:{}, stock:{}", x.price, x.stock);
+                println!("Result: name:{}, price:{}, stock:{}", x.name, x.price, x.stock);
                 x.stock
             },
             // The division was invalid

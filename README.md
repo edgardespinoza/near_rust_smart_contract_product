@@ -57,7 +57,7 @@
 - call smart contracts
   * Alice only can add product
     ```bash
-      near call $ID_ALICE set_products '{"address":"0x1","price":12345,"stock":5}' --accountId $ID_ALICE
+      near call $ID_ALICE set_products '{"address":"0x1", "name":"zapato marca X", "price":12345,"stock":5}' --accountId $ID_ALICE
      ```
 
   * Everyone can get products
@@ -72,7 +72,12 @@
 
   * Eve can now can add  or update product
      ```bash
-      near call $ID_ALICE set_products '{"address":"0x1","price":12345,"stock":4}' --accountId $ID_EVE
+      near call $ID_ALICE set_products '{"address":"0x1","name":"zapato marca X","price":12345,"stock":4}' --accountId $ID_EVE
+
+
+  * get all products
+    ```bash
+      near call $ID_ALICE get_all_products --accountId $ID_BOB
      ```
 
   * Alice only can delete product

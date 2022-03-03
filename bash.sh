@@ -1,7 +1,9 @@
-export ID=yyyy.testnet
-export ID_ALICE=dww.$ID 
-export ID_BOB=dbb.$ID 
-export ID_EVE=dee.$ID 
+export ID=eespinor.testnet
+export ID_ALICE=aw.$ID 
+export ID_BOB=bw.$ID 
+export ID_EVE=ew.$ID 
+
+cat banner
 
 sudo rm -rf ./target
 echo '......building project......'
@@ -29,3 +31,14 @@ near deploy  --initFunction 'new' --initArgs '{}'  --wasmFile target/wasm32-unkn
 
 echo '...final...'
 
+
+
+
+echo "
+____  _____    _    ______   __
+|  _ \| ____|  / \  |  _ \ \ / /
+| |_) |  _|   / _ \ | | | \ V / 
+|  _ <| |___ / ___ \| |_| || |  
+|_| \_\_____/_/   \_\____/ |_|  
+                                
+"
