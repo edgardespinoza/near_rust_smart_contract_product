@@ -6,16 +6,17 @@ export ID_EVE=ew.$ID
 cat banner
 
 sudo rm -rf ./target
+
 echo '......building project......'
+read -n1 -r -p "BUILD PROJECT" key
 cargo clean & cargo build --target wasm32-unknown-unknown --release
 
+read -n1 -r -p "INIT TESTING..." key
 echo '......testing......'
 cargo test -- --nocapture
 
+read -n1 -r -p "INIT CONFIGURATION..." key
 echo $ID
-echo 'export ID_ALICE='$ID_ALICE
-echo 'export ID_BOB='$ID_BOB
-echo 'export ID_EVE='$ID_EVE
 
 echo 'ALICE:' $ID_ALICE
 echo 'BOB:'  $ID_BOB
@@ -40,5 +41,9 @@ ____  _____    _    ______   __
 | |_) |  _|   / _ \ | | | \ V / 
 |  _ <| |___ / ___ \| |_| || |  
 |_| \_\_____/_/   \_\____/ |_|  
-                                
+
+please run in your console next commands
 "
+echo 'export ID_ALICE='$ID_ALICE
+echo 'export ID_BOB='$ID_BOB
+echo 'export ID_EVE='$ID_EVE
