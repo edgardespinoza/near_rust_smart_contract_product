@@ -1,9 +1,10 @@
 # Management Product
-Simple contract about add, delete, update and get products with stock.
-
+- Simple contract about add, delete, update and get products with stock.
+- Add permision Ownable 
+- Add AccessControl with roles
 
 ## Flow Business
-[![](https://mermaid.ink/img/pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)
+[![](https://mermaid.ink/img/pako:eNp1UsFqwzAM_RXh08qaH8ihkG457NKV9bBLoGi21pk5dmYrhVL675OblmRlNdiI956eJdlHpYMhVapEPz15Tc8WdxHbxoMs1BwiVIAJKmc1wcPr-6p-mw1sh5Gtth16hnXWbFpB4Cl4jpIJBaxjML3mqdkyC5fhY4rVGav3NGBVsVg8rktIxNtuMEh_md1dxpAjphvyfA7h8q7DKjBB2JNUOBeBVAjBuwNo9LKdg5b4K5icOXEFdAyV1pTS0HdwAz4q8qqLYlbljryRlnXoPb-YkZYp2D3K_fWIjWA1gtc20ZitXEXbyYxGlaH_cuu7Y73JuRQhtZ4DNVctxRatkV9yzFCj-ItaalQpocH43ajGn0TXd0YMamPlUVX5iS7RXGHPYXPwWpUce7qKLt_sojr9Anbhx5g)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1UsFqwzAM_RXh08qaH8ihkG457NKV9bBLoGi21pk5dmYrhVL675OblmRlNdiI956eJdlHpYMhVapEPz15Tc8WdxHbxoMs1BwiVIAJKmc1wcPr-6p-mw1sh5Gtth16hnXWbFpB4Cl4jpIJBaxjML3mqdkyC5fhY4rVGav3NGBVsVg8rktIxNtuMEh_md1dxpAjphvyfA7h8q7DKjBB2JNUOBeBVAjBuwNo9LKdg5b4K5icOXEFdAyV1pTS0HdwAz4q8qqLYlbljryRlnXoPb-YkZYp2D3K_fWIjWA1gtc20ZitXEXbyYxGlaH_cuu7Y73JuRQhtZ4DNVctxRatkV9yzFCj-ItaalQpocH43ajGn0TXd0YMamPlUVX5iS7RXGHPYXPwWpUce7qKLt_sojr9Anbhx5g)
 
 ## Setting up
 - install environment
@@ -25,7 +26,7 @@ Simple contract about add, delete, update and get products with stock.
 - to login and create new account , change YYYY.testnet  for your account
     ```bash
         $ near login 
-        $ near create-account $ID_CALLER --masterAccount YYYY.testnet --initialBalance 1
+        $ near create-account $ID_CALLER --masterAccount YYYY.testnet --initialBalance 4
     ```
 
 - to clean the folder target
