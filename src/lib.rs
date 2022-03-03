@@ -21,6 +21,7 @@ pub struct Product {
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
 #[serde(crate = "near_sdk::serde")]
 pub struct Item {
+     name: String,
      price: u128,
      stock: u8,
      enabled: bool
@@ -57,13 +58,13 @@ impl Product{
     }
 
 
-    pub fn set_products(&mut self, address:String, price: u128, stock:u8){
+    pub fn set_products(&mut self, address:String, name:String, price: u128, stock:u8){
         self.assert_owner();
 
         // Use env::log to record logs permanently to the blockchain!
         env::log(format!("set_product '{}' ", address).as_bytes());
 
-        let item = Item {price, stock, enabled:true};
+        let item = Item {name, price, stock, enabled:true};
 
         self.records.insert(address, item);
 
@@ -142,7 +143,7 @@ mod tests {
        let val = match result {
             // The division was valid
             Some(x) => {
-                println!("Result: price:{}, stock:{}", x.price, x.stock);
+                println!("Result: name:{}, price:{}, stock:{}", x.name, x.price, x.stock);
                 x.price
             },
             // The division was invalid
@@ -187,7 +188,7 @@ mod tests {
         let val = match result {
              // The division was valid
              Some(x) => {
-                 println!("Result: price:{}, stock:{}", x.price, x.stock);
+                println!("Result: name:{}, price:{}, stock:{}", x.name, x.price, x.stock);
                  x.price
              },
              // The division was invalid
@@ -220,7 +221,7 @@ mod tests {
        let val = match result {
             // The division was valid
             Some(x) => {
-                println!("Result: price:{}, stock:{}", x.price, x.stock);
+                println!("Result: name:{}, price:{}, stock:{}", x.name, x.price, x.stock);
                 x.price
             },
             // The division was invalid
@@ -250,7 +251,7 @@ mod tests {
        let val = match result {
             // The division was valid
             Some(x) => {
-                println!("Result: price:{}, stock:{}", x.price, x.stock);
+                println!("Result: name:{}, price:{}, stock:{}", x.name, x.price, x.stock);
                 x.stock
             },
             // The division was invalid

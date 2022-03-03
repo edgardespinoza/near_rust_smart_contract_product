@@ -50,7 +50,7 @@ Simple contract about add, delete, update and get products with stock.
 - call smart contracts
   * add product
     ```bash
-      near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":5}' --accountId $ID_OWNER
+      near call $ID_OWNER set_products '{"address":"0x1", "name":"zapato marca X", "price":12345,"stock":5}' --accountId $ID_OWNER
      ```
 
   * get product
@@ -62,11 +62,11 @@ Simple contract about add, delete, update and get products with stock.
     ```bash
       near call $ID_OWNER get_all_products --accountId $ID_OWNER
      ```
-     
+
 
   * update product
      ```bash
-      near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":4}' --accountId $ID_CALLER
+      near call $ID_OWNER set_products '{"address":"0x1","name":"zapato marca X","price":12345,"stock":4}' --accountId $ID_CALLER
      ```
 
   * delete product
