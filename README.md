@@ -58,6 +58,12 @@ Simple contract about add, delete, update and get products with stock.
       near call $ID_OWNER get_products '{"address":"0x1"}' --accountId $ID_OWNER
      ```
 
+  * get all products
+    ```bash
+      near call $ID_OWNER get_all_products --accountId $ID_OWNER
+     ```
+     
+
   * update product
      ```bash
       near call $ID_OWNER set_products '{"address":"0x1","price":12345,"stock":4}' --accountId $ID_CALLER
