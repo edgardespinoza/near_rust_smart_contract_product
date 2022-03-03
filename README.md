@@ -1,5 +1,5 @@
 # Management Product
-- Simple contract about add, delete, update and get products with stock.
+- Management Products is an smart contract where you can add, delete, update and get products with stock, using NEAR Protocol
 - Add permision Ownable 
 - Add AccessControl with roles
 
@@ -7,6 +7,23 @@
 [![](https://mermaid.ink/img/pako:eNp1UsFqwzAM_RXh08qaH8ihkG457NKV9bBLoGi21pk5dmYrhVL675OblmRlNdiI956eJdlHpYMhVapEPz15Tc8WdxHbxoMs1BwiVIAJKmc1wcPr-6p-mw1sh5Gtth16hnXWbFpB4Cl4jpIJBaxjML3mqdkyC5fhY4rVGav3NGBVsVg8rktIxNtuMEh_md1dxpAjphvyfA7h8q7DKjBB2JNUOBeBVAjBuwNo9LKdg5b4K5icOXEFdAyV1pTS0HdwAz4q8qqLYlbljryRlnXoPb-YkZYp2D3K_fWIjWA1gtc20ZitXEXbyYxGlaH_cuu7Y73JuRQhtZ4DNVctxRatkV9yzFCj-ItaalQpocH43ajGn0TXd0YMamPlUVX5iS7RXGHPYXPwWpUce7qKLt_sojr9Anbhx5g)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1UsFqwzAM_RXh08qaH8ihkG457NKV9bBLoGi21pk5dmYrhVL675OblmRlNdiI956eJdlHpYMhVapEPz15Tc8WdxHbxoMs1BwiVIAJKmc1wcPr-6p-mw1sh5Gtth16hnXWbFpB4Cl4jpIJBaxjML3mqdkyC5fhY4rVGav3NGBVsVg8rktIxNtuMEh_md1dxpAjphvyfA7h8q7DKjBB2JNUOBeBVAjBuwNo9LKdg5b4K5icOXEFdAyV1pTS0HdwAz4q8qqLYlbljryRlnXoPb-YkZYp2D3K_fWIjWA1gtc20ZitXEXbyYxGlaH_cuu7Y73JuRQhtZ4DNVctxRatkV9yzFCj-ItaalQpocH43ajGn0TXd0YMamPlUVX5iS7RXGHPYXPwWpUce7qKLt_sojr9Anbhx5g)
 
 ----
+
+## Prerequisites
+
+-Make sure you have node.js installed 
+
+```bash
+   node.js installed => 12v
+```
+
+-Make sure you have a testnet account, if not, you can following the steps on next link to create one:
+
+```
+  https://docs.near.org/docs/develop/basics/create-account 
+```
+
+
+
 ## Setting up
 - install environment
   ```bash
@@ -35,7 +52,7 @@
         $ near create-account $ID_EVE --masterAccount $ID --initialBalance 2
     ```
 
-- to clean the folder target
+- Clean the folder target
   ```bash
    $ cargo clean 
   ```
@@ -44,7 +61,7 @@
   ```bash
    $ cargo build --target wasm32-unknown-unknown --release
   ```
-- to test contract 
+- to run test contract 
     ```bash
     $  cargo test -- --nocapture
     ```
