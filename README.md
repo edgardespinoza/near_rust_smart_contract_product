@@ -1,10 +1,12 @@
-# Management Products
-Management Products is an smart contract where you can add, delete, update and get products with stock, using NEAR Protocol
-
+# Management Product
+- Management Products is an smart contract where you can add, delete, update and get products with stock, using NEAR Protocol
+- Add permision Ownable 
+- Add AccessControl with roles
 
 ## Flow Business
-[![](https://mermaid.ink/img/pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1kN1KA0EMhV8l5Epx-wJ7UdjV3tbFXnizIHEmtoPzs85khFL67mbdCip0IDCc852Q5IQmWcYWC39UjoYfHO0zhTGCPjKSMnRABTrvDMPN4_N283S7uBNlccZNFAWGmdkFVeA-RcmahBUMOdlq5Hezfgb79Lpo3Wq9vhtaKCwv0wKXv87-qmPZs_A_s78a2yZhSJ-sIzQK6AiQoj-CoajlPQSWQ7Jz8juADQbOgZzV65xmaUQ5cOARW_1ayu8jjvGsXJ0sCW-s0wWxfSNfuEGqknbHaLCVXPkHupz3Qp2_AEttfOA)
+[![](https://mermaid.ink/img/pako:eNp1UsFqwzAM_RXh08qaH8ihkG457NKV9bBLoGi21pk5dmYrhVL675OblmRlNdiI956eJdlHpYMhVapEPz15Tc8WdxHbxoMs1BwiVIAJKmc1wcPr-6p-mw1sh5Gtth16hnXWbFpB4Cl4jpIJBaxjML3mqdkyC5fhY4rVGav3NGBVsVg8rktIxNtuMEh_md1dxpAjphvyfA7h8q7DKjBB2JNUOBeBVAjBuwNo9LKdg5b4K5icOXEFdAyV1pTS0HdwAz4q8qqLYlbljryRlnXoPb-YkZYp2D3K_fWIjWA1gtc20ZitXEXbyYxGlaH_cuu7Y73JuRQhtZ4DNVctxRatkV9yzFCj-ItaalQpocH43ajGn0TXd0YMamPlUVX5iS7RXGHPYXPwWpUce7qKLt_sojr9Anbhx5g)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1UsFqwzAM_RXh08qaH8ihkG457NKV9bBLoGi21pk5dmYrhVL675OblmRlNdiI956eJdlHpYMhVapEPz15Tc8WdxHbxoMs1BwiVIAJKmc1wcPr-6p-mw1sh5Gtth16hnXWbFpB4Cl4jpIJBaxjML3mqdkyC5fhY4rVGav3NGBVsVg8rktIxNtuMEh_md1dxpAjphvyfA7h8q7DKjBB2JNUOBeBVAjBuwNo9LKdg5b4K5icOXEFdAyV1pTS0HdwAz4q8qqLYlbljryRlnXoPb-YkZYp2D3K_fWIjWA1gtc20ZitXEXbyYxGlaH_cuu7Y73JuRQhtZ4DNVctxRatkV9yzFCj-ItaalQpocH43ajGn0TXd0YMamPlUVX5iS7RXGHPYXPwWpUce7qKLt_sojr9Anbhx5g)
 
+----
 
 ## Prerequisites
 
@@ -30,29 +32,25 @@ Management Products is an smart contract where you can add, delete, update and g
    $ npm install -g near-cli
    ```
 
-- to login and create new account , change YYYY.testnet  for your account, and XXX by a name:
-
-    ```bash 
-        example: 
-          YYYY.testnet => juanp.testnet
-          XXX.YYYY.testnet => pr1.juanp.testnet
-    ```
-
+# configuration the project
+- ID is managment account in near,  change yyyy.testnet  for your account
+-  ID_ALICER is who deployment the contract,
+-  ID_BOB is who calling methods from contract,  
+-  ID_EVE is who has permition,  
     ```bash
-        $ near login 
-        $ near create-account XXX.YYYY.testnet --masterAccount YYYY.testnet --initialBalance 1
-    ```
-
-- setting ID OWNER is who deployment the contract, change YYYY.testnet  for your account
-    ```
-    $   export ID_OWNER=XXX.YYYY.testnet 
-    ```
-- setting ID CALLER is who calling methods from contract, change YYYY.testnet  for your account
-    ```
-    $   export ID_CALLER=XXX.YYYY.testnet 
+    $   export ID=yyyy.testnet
+    $   export ID_ALICE=d1.$ID 
+    $   export ID_BOB=d2.$ID 
+    $   export ID_EVE=d3.$ID 
     ```
     
-## Deploying Smart Contract
+- to login and create new account
+    ```bash
+        $ near login 
+        $ near create-account $ID_ALICE --masterAccount $ID --initialBalance 4
+        $ near create-account $ID_BOB --masterAccount $ID --initialBalance 1
+        $ near create-account $ID_EVE --masterAccount $ID --initialBalance 2
+    ```
 
 - Clean the folder target
   ```bash
@@ -70,43 +68,52 @@ Management Products is an smart contract where you can add, delete, update and g
 
 - to deploy contract 
     ```bash
-    $ near deploy  --initFunction 'new' --initArgs '{}'  --wasmFile target/wasm32-unknown-unknown/release/sales.wasm --accountId $ID_OWNER
+    $ near deploy  --initFunction 'new' --initArgs '{}'  --wasmFile target/wasm32-unknown-unknown/release/sales.wasm --accountId $ID_ALICE
     ``` 
 
-## Methods and how to call
-
-  * add product
+- call smart contracts
+  * Alice only can add product
     ```bash
-      near call $ID_OWNER set_products '{"address":"0x1", "name":"zapato marca X", "price":12345,"stock":5}' --accountId $ID_OWNER
+      near call $ID_ALICE set_products '{"address":"0x1", "name":"zapato marca X", "price":12345,"stock":5}' --accountId $ID_ALICE
      ```
 
-  * get product
+  * Everyone can get products
     ```bash
-      near call $ID_OWNER get_products '{"address":"0x1"}' --accountId $ID_OWNER
+      near call $ID_ALICE get_products '{"address":"0x1"}' --accountId $ID_BOB
      ```
+
+   * Alice set role "set product" to Eve
+    ```bash
+      near call $ID_ALICE add_role_set_product '{"account":"'$ID_EVE'"}' --accountId $ID_ALICE
+     ```
+
+  * Eve can now can add  or update product
+     ```bash
+      near call $ID_ALICE set_products '{"address":"0x1","name":"zapato marca X","price":12345,"stock":4}' --accountId $ID_EVE
+
 
   * get all products
     ```bash
-      near call $ID_OWNER get_all_products --accountId $ID_OWNER
+      near call $ID_ALICE get_all_products --accountId $ID_BOB
      ```
 
-
-  * update product
+  * Alice only can delete product
      ```bash
-      near call $ID_OWNER set_products '{"address":"0x1","name":"zapato marca X","price":12345,"stock":4}' --accountId $ID_CALLER
-     ```
-
-  * delete product
-     ```bash
-      near call $ID_OWNER delete_products '{"address":"0x1"}' --accountId $ID_OWNER
+      near call $ID_ALICE delete_products '{"address":"0x1"}' --accountId $ID_ALICE
      ```
 
 
 ## Code Structure 
 ```
   .
-  ├── Cargo.toml    -- file configuration 
-  ├── README.md     -- documentation
-  └── src           -- directory source
-      └── lib.rs    -- file where is smart contract and unit tests
+  |-- Cargo.toml    -- file configuration 
+  |-- README.md     -- documentation the project
+  |-- bash.sh       -- bash only mac or linux
+  `-- src           
+      |-- lib.rs    -- source where is smart contract and unit tests
+      `-- utils     
+          |-- access_control.rs  -- lib over access control
+          `-- mod.rs             -- mod que expone access control
+
+  2 directories, 6 files
 ```

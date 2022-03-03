@@ -1,4 +1,4 @@
-
+mod utils;
 use std::collections::HashMap;
  
 use near_contract_standards::upgrade::Ownable;
@@ -6,6 +6,7 @@ use near_contract_standards::upgrade::Ownable;
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::serde::{Serialize, Deserialize};
 use near_sdk::{env, near_bindgen, setup_alloc, AccountId};
+use utils::access_control::AccessControl;
 
 setup_alloc!();
 
@@ -16,8 +17,13 @@ setup_alloc!();
 pub struct Product {
     records: HashMap<String, Item>,
     owner: AccountId,
+    access: AccessControl,
 }
 
+const ROLE_SET_PRODUCT:&str = "ROLE_SET_PRODUCT";
+const ROLE_DELETE_PRODUCT:&str = "ROLE_DELETE_PRODUCT";
+
+#[derive(Debug)]
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
 #[serde(crate = "near_sdk::serde")]
 pub struct Item {
@@ -26,13 +32,14 @@ pub struct Item {
      stock: u8,
      enabled: bool
 }
-
+// https://learnnear.club/near-smart-contracts-in-rust-best-practices/
 impl Default for Product {
     fn default() -> Self {
         env::panic(b"Product contract should be initialized before usage")
     }
 }
 
+// set owner
 impl Ownable for Product{
     fn get_owner(&self) -> AccountId {
         self.owner.clone()
@@ -44,6 +51,24 @@ impl Ownable for Product{
     }
 }
  
+// implements access control
+#[near_bindgen]
+impl Product{
+    pub fn add_role_set_product(&mut self, account: AccountId ){
+        //validate if owner
+        self.assert_owner();
+        self.access.setup_role(ROLE_SET_PRODUCT.to_string(), account);
+    }
+
+    pub fn add_role_delete_product(&mut self, account: AccountId ){
+        //validate if owner
+        self.assert_owner();
+        self.access.setup_role(ROLE_DELETE_PRODUCT.to_string(), account);
+    }
+
+}
+
+// management products
 #[near_bindgen]
 impl Product{
 
@@ -51,44 +76,63 @@ impl Product{
     pub fn new()-> Self{
         assert!(!env::state_exists(), "The contract is already initialized");
       
-        Self{
+
+       let mut this = Self{
             records: HashMap::new(),
-            owner:env::signer_account_id()
-        }
+            owner: env::signer_account_id(),
+            access: AccessControl { roles: HashMap::new() },
+        };
+
+        this.add_role_set_product(env::signer_account_id());
+
+        this.add_role_delete_product(env::signer_account_id());
+        
+        this
     }
 
 
     pub fn set_products(&mut self, address:String, name:String, price: u128, stock:u8){
-        self.assert_owner();
+        
+        //validate sender has permition of ROLE_SET_PRODUCT
+        assert_eq!(self.access.has_role(&ROLE_SET_PRODUCT.to_string(), &env::signer_account_id()), true, "401");
 
-        // Use env::log to record logs permanently to the blockchain!
-        env::log(format!("set_product '{}' ", address).as_bytes());
 
         let item = Item {name, price, stock, enabled:true};
+
+        // Use env::log to record logs permanently to the blockchain!
+        env::log(format!("set_product '{:?}' ", item).as_bytes());
 
         self.records.insert(address, item);
 
     }
 
+
     pub fn get_products(&mut self, address:String) -> Option<&Item>{
          self.records.get(&address)
     }
 
-
     pub fn get_all_products(&mut self) -> Vec<Option<&Item>> {
         let mut v: Vec<Option<&Item>> = Vec::new();
         for (key, val) in self.records.iter(){
-            println!("{} {} {}", key,val.name,val.price,val.stock);
+            println!("{} {} {} {}", key,val.name,val.price,val.stock);
             v.push(self.records.get(key));
         };
         return v;
     }
 
     pub fn delete_products(&mut self, address:String) {
-        self.assert_owner();
+       
+         //validate sender has permition of ROLE_DELETE_PRODUCT
+        assert_eq!(self.access.has_role(&ROLE_DELETE_PRODUCT.to_string(), &env::signer_account_id()), true, "401");
+        
+        // Use env::log to record logs permanently to the blockchain!
+        env::log(format!("delete_products '{}' ", address).as_bytes());
+
         self.records.remove(&address);
     }
 }
+
+
 
 
 /*
@@ -111,10 +155,10 @@ mod tests {
     // mock the context for testing, notice "signer_account_id" that was accessed above from env::
     fn get_context(input: Vec<u8>, is_view: bool) -> VMContext {
         VMContext {
-            current_account_id: "alice_near".to_string(),
-            signer_account_id: "alice_near".to_string(),
+            current_account_id: "alice".to_string(),
+            signer_account_id: "alice".to_string(),
             signer_account_pk: vec![0, 1, 2],
-            predecessor_account_id: "alice_near".to_string(),
+            predecessor_account_id: "alice".to_string(),
             input,
             block_index: 0,
             block_timestamp: 0,
@@ -135,8 +179,8 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Product::new();
-     
-        contract.set_products("0x1".to_string(), 12345, 12);
+         
+        contract.set_products("0x1".to_string(), "zapatos x".to_string(), 12345, 12);
        
        let result = contract.get_products("0x1".to_string());
        
@@ -165,14 +209,15 @@ mod tests {
         testing_env!(context);
         let mut contract = Product::new();
      
-        contract.set_product("0x1".to_string(), 12345, 12);
-        contract.set_product("0x2".to_string(), 5678, 11);
-        contract.set_product("0x3".to_string(), 678, 2);
+        contract.set_products("0x1".to_string(),"zapatos x".to_string(), 12345, 12);
+        contract.set_products("0x2".to_string(), "zapatos x".to_string(),5678, 11);
+        contract.set_products("0x3".to_string(),"zapatos x".to_string(), 678, 2);
        
        let result = contract.get_all_products();
        let v1_result = result.iter();
 
-       println!("{:?}",result.len());
+       println!("{:?}",v1_result);
+       println!("{}",result.len());
 
        assert_eq!(3, result.len() );
     }
@@ -211,8 +256,9 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Product::new();
-        
-        contract.set_products("0x1".to_string(), 12345, 12);
+       
+        contract.set_products("0x1".to_string(), "zapatos x".to_string(),12345, 12);
+       
        
         contract.delete_products("0x1".to_string());
        
@@ -241,10 +287,10 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Product::new();
-        
-        contract.set_products("0x1".to_string(), 12345, 12);
        
-        contract.set_products("0x1".to_string(), 12345, 11);
+        contract.set_products("0x1".to_string(), "zapatos x".to_string(),12345, 12);
+       
+        contract.set_products("0x1".to_string(), "zapatos x".to_string(),12345, 11);
        
        let result = contract.get_products("0x1".to_string());
        
