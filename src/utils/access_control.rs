@@ -1,14 +1,11 @@
-use std::collections::HashMap;
-
 use near_sdk::AccountId;
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::serde::{Serialize, Deserialize};
+use near_sdk::collections::LookupMap;
 // see: https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControl.sol
-#[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
-#[serde(crate = "near_sdk::serde")]
+#[derive( BorshDeserialize, BorshSerialize)]
 pub struct AccessControl {
 
-    pub roles : HashMap<String, Vec<String>>
+    pub roles : LookupMap<String, Vec<String>>,
     
 }
 
@@ -16,7 +13,7 @@ pub struct AccessControl {
 impl AccessControl {
     
     pub fn has_role(&mut self, role: &str,  account:&AccountId) -> bool {
-        let result = self.roles.get(role);
+        let result = self.roles.get(&role.to_string());
         match result {
             Some(x) => {
                 x.contains(&account)
@@ -35,13 +32,13 @@ impl AccessControl {
                 Some( x) => {
                     let mut item= x.clone();
                     item.push(account);
-                    self.roles.insert(role, item);
+                    self.roles.insert(&role, &item);
 
                 },
                
                 None =>    {
                     let v:Vec<String> = vec![account.to_string()];
-                    self.roles.insert(role, v);
+                    self.roles.insert(&role, &v);
                 }
                 ,
             }

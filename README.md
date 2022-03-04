@@ -79,7 +79,7 @@
 
   * Everyone can get products
     ```bash
-      near call $ID_ALICE get_products '{"address":"0x1"}' --accountId $ID_BOB
+      near view $ID_ALICE get_products '{"address":"0x1"}' --accountId $ID_BOB
      ```
 
    * Alice set role "set product" to Eve
@@ -96,11 +96,6 @@
      ```bash
       near call $ID_ALICE set_products '{"address":"0x1","name":"zapato marca X","price":12345,"stock":4}' --accountId $ID_EVE
 
-
-  * get all products
-    ```bash
-      near call $ID_ALICE get_all_products --accountId $ID_BOB
-     ```
 
   * Alice only can delete product
      ```bash
