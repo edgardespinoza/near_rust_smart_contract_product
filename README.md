@@ -87,6 +87,11 @@
       near call $ID_ALICE add_role_set_product '{"account":"'$ID_EVE'"}' --accountId $ID_ALICE
      ```
 
+     * Alice set role "del product" to Eve
+    ```bash
+      near call $ID_ALICE add_role_delete_product '{"account":"'$ID_EVE'"}' --accountId $ID_ALICE
+    ```
+
   * Eve can now can add  or update product
      ```bash
       near call $ID_ALICE set_products '{"address":"0x1","name":"zapato marca X","price":12345,"stock":4}' --accountId $ID_EVE
