@@ -1,5 +1,5 @@
-# Management Product
-- Management Products is an smart contract where you can add, delete, update and get products with stock, using NEAR Protocol
+# Products Management 
+- Products Management is an smart contract where you can add, delete, update and get products with stock, using NEAR Protocol
 - Add permision Ownable 
 - Add AccessControl with roles
 
@@ -121,3 +121,6 @@
 
   2 directories, 6 files
 ```
+## Proposed View
+
+ [Product Management View](https://www.figma.com/proto/SENYdaIHjb2cgGRQrV7A4H/Management-Products?node-id=6%3A14&scaling=min-zoom&page-id=0%3A1)
