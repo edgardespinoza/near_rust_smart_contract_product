@@ -1,5 +1,5 @@
-# Management Product
-- Management Products is an smart contract where you can add, delete, update and get products with stock, using NEAR Protocol
+# Products Management 
+- Products Management is an smart contract where you can add, delete, update and get products with stock, using NEAR Protocol
 - Add permision Ownable 
 - Add AccessControl with roles
 
