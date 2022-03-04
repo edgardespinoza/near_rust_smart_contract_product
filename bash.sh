@@ -1,7 +1,7 @@
 export ID=eespinor.testnet
-export ID_ALICE=aw.$ID 
-export ID_BOB=bw.$ID 
-export ID_EVE=ew.$ID 
+export ID_ALICE=a1.$ID 
+export ID_BOB=b1.$ID 
+export ID_EVE=e1.$ID 
 
 cat banner
 
