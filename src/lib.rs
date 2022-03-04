@@ -78,11 +78,12 @@ impl Product{
     pub fn get_all_products(&mut self) -> Vec<Option<&Item>> {
         let mut v: Vec<Option<&Item>> = Vec::new();
         for (key, val) in self.records.iter(){
-            println!("{} {} {}", key,val.name,val.price,val.stock);
+            println!("{} {} {} {}", key,val.name,val.price,val.stock);
             v.push(self.records.get(key));
         };
         return v;
     }
+    
 
     pub fn delete_products(&mut self, address:String) {
         self.assert_owner();
@@ -136,7 +137,7 @@ mod tests {
         testing_env!(context);
         let mut contract = Product::new();
      
-        contract.set_products("0x1".to_string(), 12345, 12);
+        contract.set_products("0x1".to_string(), "producto1".to_string(),12345, 12);
        
        let result = contract.get_products("0x1".to_string());
        
@@ -158,16 +159,15 @@ mod tests {
        
     }
 
-
     #[test]
     fn set_then_get_all_products() {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Product::new();
      
-        contract.set_product("0x1".to_string(), 12345, 12);
-        contract.set_product("0x2".to_string(), 5678, 11);
-        contract.set_product("0x3".to_string(), 678, 2);
+        contract.set_products("0x1".to_string(),"product1".to_string(),12345, 12);
+        contract.set_products("0x2".to_string(),"product2".to_string(),5678, 11);
+        contract.set_products("0x3".to_string(),"product3".to_string(),678, 2);
        
        let result = contract.get_all_products();
        let v1_result = result.iter();
@@ -176,6 +176,7 @@ mod tests {
 
        assert_eq!(3, result.len() );
     }
+   
 
     #[test]
     fn get_default_product() {
@@ -212,7 +213,7 @@ mod tests {
         testing_env!(context);
         let mut contract = Product::new();
         
-        contract.set_products("0x1".to_string(), 12345, 12);
+        contract.set_products("0x1".to_string(),"producto1".to_string(),12345, 12);
        
         contract.delete_products("0x1".to_string());
        
@@ -242,9 +243,9 @@ mod tests {
         testing_env!(context);
         let mut contract = Product::new();
         
-        contract.set_products("0x1".to_string(), 12345, 12);
+        contract.set_products("0x1".to_string(),"Producto1".to_string(),12345, 12);
        
-        contract.set_products("0x1".to_string(), 12345, 11);
+        contract.set_products("0x1".to_string(),"producto2".to_string(),12345, 11);
        
        let result = contract.get_products("0x1".to_string());
        
