@@ -7,7 +7,11 @@
 [![](https://mermaid.ink/img/pako:eNp1UsFqwzAM_RXh08qaH8ihkG457NKV9bBLoGi21pk5dmYrhVL675OblmRlNdiI956eJdlHpYMhVapEPz15Tc8WdxHbxoMs1BwiVIAJKmc1wcPr-6p-mw1sh5Gtth16hnXWbFpB4Cl4jpIJBaxjML3mqdkyC5fhY4rVGav3NGBVsVg8rktIxNtuMEh_md1dxpAjphvyfA7h8q7DKjBB2JNUOBeBVAjBuwNo9LKdg5b4K5icOXEFdAyV1pTS0HdwAz4q8qqLYlbljryRlnXoPb-YkZYp2D3K_fWIjWA1gtc20ZitXEXbyYxGlaH_cuu7Y73JuRQhtZ4DNVctxRatkV9yzFCj-ItaalQpocH43ajGn0TXd0YMamPlUVX5iS7RXGHPYXPwWpUce7qKLt_sojr9Anbhx5g)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNp1UsFqwzAM_RXh08qaH8ihkG457NKV9bBLoGi21pk5dmYrhVL675OblmRlNdiI956eJdlHpYMhVapEPz15Tc8WdxHbxoMs1BwiVIAJKmc1wcPr-6p-mw1sh5Gtth16hnXWbFpB4Cl4jpIJBaxjML3mqdkyC5fhY4rVGav3NGBVsVg8rktIxNtuMEh_md1dxpAjphvyfA7h8q7DKjBB2JNUOBeBVAjBuwNo9LKdg5b4K5icOXEFdAyV1pTS0HdwAz4q8qqLYlbljryRlnXoPb-YkZYp2D3K_fWIjWA1gtc20ZitXEXbyYxGlaH_cuu7Y73JuRQhtZ4DNVctxRatkV9yzFCj-ItaalQpocH43ajGn0TXd0YMamPlUVX5iS7RXGHPYXPwWpUce7qKLt_sojr9Anbhx5g)
 
 ----
+## Architecture
 
+[![](https://www.planttext.com/api/plantuml/svg/TLB1JiCm3BtdAwoU1b8dn0TCQxU1Ai5K3I4EtGvf4af4crH9AWwe_uwJaWdeoA6n_FBiv-UkhQF63LrBY9Ek5G2bqNnWpi8ZRMWdb2Eaf-oTDWAI5r4dy4a03zDThnN2KDqPZLVadO1Qk7ykoFY3sEbQjk82Tt5z1LdV1r9MbXxsHC9QFN0eb1D62OUySPP3He5r_yMKvc82GvJaA4Oe7aLK-M2b4jR2WsuaEuMaz0LUAHCeIeOCfuxMr29_-nqTLHmryNssEHaXzjZxxtwN7M8Ng9uwD1WsQ96Xp1tLRwCicyHu7sOlTuVDxKru9WoBrg2ra7BzeTBLULvo7dn25a7-tmaX7VhqCh9S-Zdc12ERDvUkWfTaSZJcl7JS658dCNuN92maPhneotnj7wtHU_pFlW00)](https://www.planttext.com/api/plantuml/svg/TLB1JiCm3BtdAwoU1b8dn0TCQxU1Ai5K3I4EtGvf4af4crH9AWwe_uwJaWdeoA6n_FBiv-UkhQF63LrBY9Ek5G2bqNnWpi8ZRMWdb2Eaf-oTDWAI5r4dy4a03zDThnN2KDqPZLVadO1Qk7ykoFY3sEbQjk82Tt5z1LdV1r9MbXxsHC9QFN0eb1D62OUySPP3He5r_yMKvc82GvJaA4Oe7aLK-M2b4jR2WsuaEuMaz0LUAHCeIeOCfuxMr29_-nqTLHmryNssEHaXzjZxxtwN7M8Ng9uwD1WsQ96Xp1tLRwCicyHu7sOlTuVDxKru9WoBrg2ra7BzeTBLULvo7dn25a7-tmaX7VhqCh9S-Zdc12ERDvUkWfTaSZJcl7JS658dCNuN92maPhneotnj7wtHU_pFlW00)
+
+(*)components not implemented
 ## Prerequisites
 
 -Make sure you have node.js installed 
@@ -79,7 +83,7 @@
 
   * Everyone can get products
     ```bash
-      near call $ID_ALICE get_products '{"address":"0x1"}' --accountId $ID_BOB
+      near view $ID_ALICE get_products '{"address":"0x1"}' --accountId $ID_BOB
      ```
 
    * Alice set role "set product" to Eve
@@ -96,11 +100,6 @@
      ```bash
       near call $ID_ALICE set_products '{"address":"0x1","name":"zapato marca X","price":12345,"stock":4}' --accountId $ID_EVE
 
-
-  * get all products
-    ```bash
-      near call $ID_ALICE get_all_products --accountId $ID_BOB
-     ```
 
   * Alice only can delete product
      ```bash

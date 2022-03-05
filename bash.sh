@@ -1,11 +1,11 @@
 export ID=eespinor.testnet
-export ID_ALICE=a1.$ID 
-export ID_BOB=b1.$ID 
-export ID_EVE=e1.$ID 
+export ID_ALICE=ali4.$ID 
+export ID_BOB=bob4.$ID 
+export ID_EVE=eve4.$ID 
 
 cat banner
 
-sudo rm -rf ./target
+rm -rf ./target
 
 echo '......building project......'
 read -n1 -r -p "BUILD PROJECT" key
@@ -23,9 +23,9 @@ echo 'BOB:'  $ID_BOB
 echo 'EVE:'  $ID_EVE
 
 echo '......creation accounts......'
-near create-account $ID_ALICE --masterAccount $ID --initialBalance 3
-near create-account $ID_BOB --masterAccount $ID --initialBalance 1
-near create-account $ID_EVE --masterAccount $ID --initialBalance 2
+near create-account $ID_ALICE --masterAccount $ID --initialBalance 2
+near create-account $ID_BOB --masterAccount $ID --initialBalance 0.05
+near create-account $ID_EVE --masterAccount $ID --initialBalance 0.3
 
 echo '......deployment to testnet......'
 near deploy  --initFunction 'new' --initArgs '{}'  --wasmFile target/wasm32-unknown-unknown/release/sales.wasm --accountId $ID_ALICE

@@ -1,9 +1,9 @@
 mod utils;
-use std::collections::HashMap;
- 
+
 use near_contract_standards::upgrade::Ownable;
 // To conserve gas, efficient serialization is achieved through Borsh (http://borsh.io/)
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
+use near_sdk::collections::LookupMap;
 use near_sdk::serde::{Serialize, Deserialize};
 use near_sdk::{env, near_bindgen, setup_alloc, AccountId};
 use utils::access_control::AccessControl;
@@ -15,7 +15,7 @@ setup_alloc!();
 #[near_bindgen]
 #[derive( BorshDeserialize, BorshSerialize )]
 pub struct Product {
-    records: HashMap<String, Item>,
+    records: LookupMap<String, Item>,
     owner: AccountId,
     access: AccessControl,
 }
@@ -78,9 +78,9 @@ impl Product{
       
 
        let mut this = Self{
-            records: HashMap::new(),
+            records: LookupMap::new(b"a".to_vec()),
             owner: env::signer_account_id(),
-            access: AccessControl { roles: HashMap::new() },
+            access: AccessControl { roles: LookupMap::new(b"a".to_vec()) },
         };
 
         this.add_role_set_product(env::signer_account_id());
@@ -102,23 +102,23 @@ impl Product{
         // Use env::log to record logs permanently to the blockchain!
         env::log(format!("set_product '{:?}' ", item).as_bytes());
 
-        self.records.insert(address, item);
+        self.records.insert(&address, &item);
 
     }
 
 
-    pub fn get_products(&mut self, address:String) -> Option<&Item>{
+    pub fn get_products(&self, address:String) -> Option<Item>{
          self.records.get(&address)
     }
 
-    pub fn get_all_products(&mut self) -> Vec<Option<&Item>> {
+  /*  pub fn get_all_products(&mut self) -> Vec<Option<&Item>> {
         let mut v: Vec<Option<&Item>> = Vec::new();
         for (key, val) in self.records.iter(){
             println!("{} {} {} {}", key,val.name,val.price,val.stock);
             v.push(self.records.get(key));
         };
         return v;
-    }
+    }*/
 
     pub fn delete_products(&mut self, address:String) {
        
@@ -203,7 +203,7 @@ mod tests {
     }
 
 
-    #[test]
+   /* #[test]
     fn set_then_get_all_products() {
         let context = get_context(vec![], false);
         testing_env!(context);
@@ -220,13 +220,13 @@ mod tests {
        println!("{}",result.len());
 
        assert_eq!(3, result.len() );
-    }
+    }*/
 
     #[test]
     fn get_default_product() {
         let context = get_context(vec![], false);
         testing_env!(context);
-        let mut contract = Product::new();
+        let  contract = Product::new();
         
         let result = contract.get_products("0x1".to_string());
        
