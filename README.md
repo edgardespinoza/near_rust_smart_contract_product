@@ -107,7 +107,7 @@
      ```
 
 
-## Code Structure 
+## 🤝 Code Structure 
 ```
   .
   |-- Cargo.toml    -- file configuration 
